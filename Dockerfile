@@ -1,21 +1,18 @@
 # Base image
 FROM node:18
 
-# Set working directory
+# Create app directory
 WORKDIR /app
 
 # Install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy source code
+# Copy source
 COPY . .
 
-# Default port
+# Expose the port
 EXPOSE 3000
-RUN node mongoseed.js
 
-# Optional: run seed manually inside container by:
-# docker exec -it qr_web node mongoseed.js
-
+# Start the app
 CMD ["node", "app.js"]
