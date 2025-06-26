@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
+const { type } = require("os");
 
 // تحميل متغيرات البيئة من .env لو موجود
 if (fs.existsSync('.env')) {
   require('dotenv').config();
 }
 
-// الاتصال بقاعدة البيانات
-const MONGO_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/comp";
+
+const MONGO_URI = process.env.MONGODB_URI || "mongodb://192.168.1.101:27017/restaurant";
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -16,33 +17,49 @@ mongoose.connect(MONGO_URI, {
 .then(() => console.log("✅ Connected to MongoDB"))
 .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// سكيم الأخبار
-const NewsSchem = new mongoose.Schema({
-  title: String,
-  content: String,
-  short: String
+// Table Schema
+const tableSchema = new mongoose.Schema({
+  qr_code_url: { type: String, required: true }
 });
 
-// سكيم المستخدمين
-const LoginSchem = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-    trim: true,
-    lowercase: true
+// MenuItem Schema
+const menuItemSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  category: { type: String },
+  is_available: { type: Boolean, default: true }
+});
+
+// OrderItem Schema
+const orderSchema = new mongoose.Schema({
+  table_id: {
+    type : mongoose.Schema.Types.ObjectId ,
+    ref: 'Table',
+    required: true 
   },
-  password: {
-    type: String,
-    required: true
-  }
-}, {
-  timestamps: true
-});
+  order: [
+    {
+      item_id: {type: mongoose.Schema.Types.ObjectId , ref: 'MenuItem', required: true},
+      quantity: {type: Number , required: true},
+      price: {type: Number , required: true},
+      name: {type: String , required: true}
 
-// النماذج
-const Composer = mongoose.model("Composer", NewsSchem);
-const User = mongoose.model("User", LoginSchem);
+    }
+  ],
+  total_price: {type: Number , required: true},
+  status_order: {type:String ,default:'pending'}
+  
+})
 
-// التصدير
-module.exports = { Composer, User };
+// Models
+const Table = mongoose.model('Table', tableSchema);
+const MenuItem = mongoose.model('MenuItem', menuItemSchema);
+const Order = mongoose.model('Order', orderSchema);
+
+
+
+module.exports = {
+  Table,
+  MenuItem,
+  Order
+};

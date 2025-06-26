@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# dotenv env files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Docker-related
+**/data/
+docker-compose.override.yml
+
+# Dependency lock files (optional if you want to ignore them)
+# package-lock.json
+
+# Public build artifacts (if dynamically generated)
+public/build/

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🍽️ Menu - Table <%= table_id %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f6f6;
+      padding: 20px;
+      color: #333;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #444;
+    }
+
+    .menu-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .menu-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .menu-info {
+      flex: 1 1 60%;
+      margin-bottom: 10px;
+    }
+
+    .menu-info strong {
+      font-size: 1.1em;
+      display: block;
+    }
+
+    .menu-actions {
+      flex: 1 1 35%;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type=number] {
+      width: 60px;
+      padding: 5px;
+      font-size: 1em;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      font-size: 1.1em;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 25px;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    @media (max-width: 600px) {
+      .menu-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .menu-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      input[type=number] {
+        width: 100%;
+        max-width: 100px;
+      }
+
+      button {
+        font-size: 1.2em;
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="menu-container">
+    <h1>🪑 Table <%= table_id %> - Menu</h1>
+
+    <form method="POST" action="/menu/<%= table_id %>">
+=
+      <% menuItems.forEach(function(item) { %>
+        <div class="menu-item">
+          <div class="menu-info">
+            <strong><%= item.name %></strong>
+            <span>$<%= item.price %></span>
+          </div>
+          <div class="menu-actions">
+            <input type="number" name="quantities[<%= item._id %>]" value="0" min="0">
+            <input type="hidden" name="prices[<%= item._id %>]" value="<%= item.price %>">
+            <input type="hidden" name="names[<%= item._id %>]" value="<%= item.name %>">
+          </div>
+        </div>
+      <% }); %>
+
+      <button type="submit">➕ Add Order</button>
+    </form>
+  </div>
+
+</body> 
+</html>

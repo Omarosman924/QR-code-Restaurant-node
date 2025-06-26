@@ -1,32 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title><%= title %></title>
-    <link rel="stylesheet" href="/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
 </head>
-<body>
-    <!-- Navbar -->
-    <nav>
-        <a href="/">Home</a> |
-        <a href="/about">About Us</a> |
-        <a href="/contact">Contact Us</a>
-    </nav>
 
-        <!-- Page content -->
-    <h1><%= title %></h1>
-    <p><%= sampleText %></p>
-    <% data.forEach(function(item) { %>
-        <h1><%= item.title %></h1>
-        <p><%= item.short %> <a href="/post/<%= item._id %>">Read more</a>   <a href="/delete/<%= item._id %>">Delete</a>     <a href="/update/<%= item._id %>">update</a></p>
+
+<body>
+   <% tables.forEach((table)=>{ %>
+    <a href="/menu/<%= table._id %>" > Tab_id</a>
+    <br>
 
     <% }); %>
 
-    <!-- Auth Buttons -->
-    <div style="margin: 10px 0;">
-        <% if (session && session.userId) { %>
-            <a href="/logout" class="btn" style="color: red;">🚪 Logout</a>
-            <a href="/c" class="btn">➕ Compose</a>
-        <% } else { %>
-            <a href="/login" class="btn">🔐 Login</a>
-        <% } %>
+</body>

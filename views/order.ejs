@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <% orders.forEach((items)=>{ %>
+            <strong>Order ID:</strong> <%= items.table_id %> <br>
+            <strong>Table:</strong> <%= items.table_id %> <br>
+            <strong>Status:</strong> <%= items.status_order %> <br>
+            <% items.order.forEach((item)=>{ %>
+                <strong><%= item.name %> : <%= item.quantity %></strong> <br>
+
+            <% }) %>
+            <strong>Total Price :</strong> <%= items.total_price %>$<br>
+        <form action="/<%= items._id %>/done" method="POST" style="margin-top: 10px;">
+         <button type="submit">Done</button>
+            <hr>
+
+
+        
+
+ 
+
+
+    <% }) %>
+</body>
+</html>
