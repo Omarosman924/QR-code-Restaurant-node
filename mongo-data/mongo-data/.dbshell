@@ -1,0 +1,9 @@
+use restaurant
+show collections
+tables
+db.tables
+db.tables.find()
+use restaurant
+db.tables.show()
+db.tables.find()
+eixt

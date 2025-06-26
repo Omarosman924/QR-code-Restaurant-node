@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
@@ -10,11 +11,11 @@ const PORT = process.env.PORT || 3000;
 
 // Auto-create admin user
 (async () => {
-  const existingAdmin = await User.findOne({ username: 'admin' });
+  const existingAdmin = await User.findOne({ username: process.env.ADMIN_USERNAME });
   if (!existingAdmin) {
-    const hashedPassword = await bcrypt.hash('123', 12);
-    await User.create({ username: 'admin', password: hashedPassword });
-    console.log('✅ Admin user created: username = admin, password = 123');
+    const hashedPassword = await bcrypt.hash(process.env.ADMIN_PASSWORD, 12);
+    await User.create({ username: process.env.ADMIN_USERNAME, password: hashedPassword });
+    console.log(`✅ Admin user created: ${process.env.ADMIN_USERNAME} / ${process.env.ADMIN_PASSWORD}`);
   }
 })();
 
@@ -31,7 +32,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(session({
-  secret: 'mysecretkey',
+  secret: process.env.SESSION_SECRET || 'fallbacksecret',
   resave: false,
   saveUninitialized: false
 }));
@@ -78,13 +79,11 @@ app.post('/dashboard/delete/:id', isAuthenticated, async (req, res) => {
   res.redirect('/dashboard');
 });
 
-// Main page (tables)
 app.get('/', async (req, res) => {
   const tables = await Table.find();
   res.render('index', { tables });
 });
 
-// Menu and ordering
 app.route('/menu/:table_id')
   .get(async (req, res) => {
     const menuItems = await MenuItem.find();
@@ -109,13 +108,11 @@ app.route('/menu/:table_id')
     res.redirect(`/menu/${req.params.table_id}`);
   });
 
-// View orders
 app.get('/order', async (req, res) => {
   const orders = await Order.find();
   res.render('order', { orders });
 });
 
-// Mark order as done
 app.post('/:order_id/done', async (req, res) => {
   try {
     await Order.findByIdAndUpdate(req.params.order_id, { status_order: "done" });
