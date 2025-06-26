@@ -87,7 +87,7 @@ app.route('/order')
     orders = await Order.find()
     
 
-    res.render("order.ejs",{orders: orders})
+    res.render("order.ejs",{oarders: orders})
   })
 
 app.route('/:order_id/done')

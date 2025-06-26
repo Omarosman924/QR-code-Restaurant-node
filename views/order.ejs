@@ -7,7 +7,7 @@
 </head>
 <body>
     <% orders.forEach((items)=>{ %>
-            <strong>Order ID:</strong> <%= items.table_id %> <br>
+            <strong>Order ID:</strong> <%= items._id %> <br>
             <strong>Table:</strong> <%= items.table_id %> <br>
             <strong>Status:</strong> <%= items.status_order %> <br>
             <% items.order.forEach((item)=>{ %>
@@ -17,6 +17,7 @@
             <strong>Total Price :</strong> <%= items.total_price %>$<br>
         <form action="/<%= items._id %>/done" method="POST" style="margin-top: 10px;">
          <button type="submit">Done</button>
+        </form>
             <hr>
 
 
